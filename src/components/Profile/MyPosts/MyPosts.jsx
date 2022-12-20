@@ -24,7 +24,9 @@ const MyPosts = (props) => {
 				<div>
 					<textarea ref={newPostElement}></textarea>
 				</div>
-				<button onClick={addPost}>Add post</button>
+				<button onClick={addPost}>
+					Add post
+				</button>
 			</div>
 			<div className={classes.posts}>
 				{posts} 
@@ -32,5 +34,6 @@ const MyPosts = (props) => {
 		</div>
 	);
 }
+
 
 export default MyPosts;
