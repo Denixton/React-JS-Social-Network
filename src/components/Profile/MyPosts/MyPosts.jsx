@@ -11,18 +11,21 @@ const MyPosts = (props) => {
 
 	// Функция добавления нового поста
 	const addPost = () => {
-		let text = newPostElement.current.value;
 		// Вызов функции addPost из state.js
-		props.addPost(text);
-		newPostElement.current.value = '';
+		props.addPost();
 	}
-	
+
+	let onPostChange = () => {
+		let text = newPostElement.current.value;
+		props.updateNewPostText(text);
+	}
+
 	return (
 		<div className={classes.postsBlock}>
 			<h3>My posts</h3>
 			<div>
 				<div>
-					<textarea ref={newPostElement}></textarea>
+					<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
 				</div>
 				<button onClick={addPost}>
 					Add post
@@ -33,6 +36,7 @@ const MyPosts = (props) => {
 			</div>
 		</div>
 	);
+	
 }
 
 

@@ -1,4 +1,6 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = () => {
+	
+}
 
 let state = {
 
@@ -8,7 +10,8 @@ let state = {
 			{ id: 2, message: 'It\'s my first post', likesCount: 23 },
 			{ id: 3, message: 'Omg, what the hell?', likesCount: 51 },
 			{ id: 4, message: 'No-no-nobody knows React', likesCount: 37 }
-		]
+		],
+		newPostText: 'it-kamasutra.com'
 	},
 
 	dialogsPage: {
@@ -27,20 +30,56 @@ let state = {
 			{ id: 4, message: 'So interesting thing!' },
 			{ id: 5, message: "What's up?" },
 			{ id: 6, message: 'Long-long day...' }
-		]
+		],
+		newMessageText: 'example text'
 	},
 
-	sidebar: {
-
+	sidebarPage: {
+		friends: [
+			{ id: 1, name: 'Alexey' },
+			{ id: 2, name: 'Ivan' },
+			{ id: 3, name: 'Alexy' }
+		]
 	}
 }
 
-export const addPost = (postMessage) => {
+window.state = state;
+
+// Функция добавления поста
+export const addPost = () => {
 	let newPost = {
-		id: 5, message: postMessage, likesCount: 0
+		id: state.profilePage.posts.length + 1, message: state.profilePage.newPostText, likesCount: 0
 	};
 	state.profilePage.posts.push(newPost);
+	state.profilePage.newPostText = '';
 	rerenderEntireTree(state);
+}
+
+// Функция обновления поста в state при наборе текста поста
+export const updateNewPostText = (newText) => {
+	state.profilePage.newPostText = newText;
+	rerenderEntireTree(state);
+}
+
+// Функция отправки сообщения
+export const sendMessage = () => {
+	let newMessage = {
+		id: state.dialogsPage.messages.length + 1, message: state.dialogsPage.newMessageText
+	};
+	state.dialogsPage.messages.push(newMessage);
+	state.dialogsPage.newMessageText = '';
+	rerenderEntireTree(state);
+}
+
+// Функция обновления сообщения в state при наборе текста сообщения
+export const updateNewMessageText = (newMessage) => {
+	state.dialogsPage.newMessageText = newMessage;
+	rerenderEntireTree(state);
+}
+
+// Функция перерисовки
+export const subscribe = (observer) => {
+	rerenderEntireTree = observer;
 }
 
 export default state;
