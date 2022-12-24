@@ -1,8 +1,9 @@
-let store = {
-	_callSubscriber() {
-		console.log('State changed');
-	},
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const SEND_MESSAGE = 'SEND-MESSAGE';
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 
+let store = {
 	_state: {
 		profilePage: {
 			posts: [
@@ -11,9 +12,9 @@ let store = {
 				{ id: 3, message: 'Omg, what the hell?', likesCount: 51 },
 				{ id: 4, message: 'No-no-nobody knows React', likesCount: 37 }
 			],
-			newPostText: 'it-kamasutra.com'
+			newPostText: ''
 		},
-	
+
 		dialogsPage: {
 			dialogs: [
 				{ id: 1, name: 'Alexey' },
@@ -31,9 +32,9 @@ let store = {
 				{ id: 5, message: "What's up?" },
 				{ id: 6, message: 'Long-long day...' }
 			],
-			newMessageText: 'example text'
+			newMessageText: ''
 		},
-	
+
 		sidebarPage: {
 			friends: [
 				{ id: 1, name: 'Alexey' },
@@ -42,44 +43,62 @@ let store = {
 			]
 		},
 	},
-	
+	_callSubscriber() {
+		console.log('State changed');
+	},
+
 	getState() {
 		return this._state;
 	},
-
-	addPost() {
-		let newPost = {
-			id: this._state.profilePage.posts.length + 1, message: this._state.profilePage.newPostText, likesCount: 0
-		};
-		this._state.profilePage.posts.push(newPost);
-		this._state.profilePage.newPostText = '';
-		this._callSubscriber(this._state);
-	},
-
-	updateNewPostText(newText) {
-		this._state.profilePage.newPostText = newText;
-		this._callSubscriber(this._state);
-	},
-
-	sendMessage() {
-		let newMessage = {
-			id: this._state.dialogsPage.messages.length + 1, message: this._state.dialogsPage.newMessageText
-		};
-		this._state.dialogsPage.messages.push(newMessage);
-		this._state.dialogsPage.newMessageText = '';
-		this._callSubscriber(this._state);
-	},
-	
-	// Функция обновления сообщения в state при наборе текста сообщения
-	updateNewMessageText(newMessage) {
-		this._state.dialogsPage.newMessageText = newMessage;
-		this._callSubscriber(this._state);
-	},
-
 	subscribe(observer) {
 		this._callSubscriber = observer;
+	},
+
+	dispatch(action) {
+		if (action.type === ADD_POST) {
+			let newPost = {
+				id: this._state.profilePage.posts.length + 1, message: this._state.profilePage.newPostText, likesCount: 0
+			};
+			this._state.profilePage.posts.push(newPost);
+			this._state.profilePage.newPostText = '';
+			this._callSubscriber(this._state);
+		}
+		else if (action.type === UPDATE_NEW_POST_TEXT) {
+			this._state.profilePage.newPostText = action.updatedPostText;
+			this._callSubscriber(this._state);
+		}
+		else if (action.type === SEND_MESSAGE) {
+			let newMessage = {
+				id: this._state.dialogsPage.messages.length + 1, message: this._state.dialogsPage.newMessageText
+			};
+			this._state.dialogsPage.messages.push(newMessage);
+			this._state.dialogsPage.newMessageText = '';
+			this._callSubscriber(this._state);
+		}
+		else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
+			this._state.dialogsPage.newMessageText = action.updatedMessageText;
+			this._callSubscriber(this._state);
+		}
 	}
 }
+
+export const addPostActionCreator = () => ({
+		type: ADD_POST
+})
+
+export const updateNewPostTextActionCreator = (postText) => ({
+		type: UPDATE_NEW_POST_TEXT,
+		updatedPostText: postText
+})
+
+export const sendMessageActionCreator = () => ({
+		type: SEND_MESSAGE
+})
+
+export const updateNewMessageTextActionCreator = (messageText) => ({
+		type: UPDATE_NEW_MESSAGE_TEXT,
+		updatedMessageText: messageText
+})
 
 window.store = store;
 

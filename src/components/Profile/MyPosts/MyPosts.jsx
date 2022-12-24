@@ -1,23 +1,19 @@
 import React from 'react';
+import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../redux/state';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
 
 const MyPosts = (props) => {
-	
-	let posts = props.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
-	
-	// Ссылка на textarea с текстом сообщения
-	let newPostElement = React.createRef();
 
-	// Функция добавления нового поста
+	let postsElements = props.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
+
 	const addPost = () => {
-		// Вызов функции addPost из state.js
-		props.addPost();
+		props.dispatch(addPostActionCreator());
 	}
 
-	let onPostChange = () => {
-		let text = newPostElement.current.value;
-		props.updateNewPostText(text);
+	let onPostChange = (e) => {
+		let postText = e.target.value;
+		props.dispatch(updateNewPostTextActionCreator(postText));
 	}
 
 	return (
@@ -25,19 +21,17 @@ const MyPosts = (props) => {
 			<h3>My posts</h3>
 			<div>
 				<div>
-					<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
+					<textarea onChange={onPostChange} value={props.newPostText} />
 				</div>
 				<button onClick={addPost}>
 					Add post
 				</button>
 			</div>
 			<div className={classes.posts}>
-				{posts} 
+				{postsElements}
 			</div>
 		</div>
 	);
-	
 }
-
 
 export default MyPosts;
