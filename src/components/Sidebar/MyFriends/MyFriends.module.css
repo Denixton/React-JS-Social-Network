@@ -1,0 +1,17 @@
+.friendsBlock {
+	grid-area: n;
+}
+
+.friendsTitle {
+	text-align: center;
+}
+
+.friends {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.friends:last-child {
+	margin-right: 0;
+}

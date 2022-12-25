@@ -2,7 +2,7 @@ import React from 'react';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import classes from './Dialogs.module.css';
-import { sendMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/state';
+import { sendMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/dialogs-reducer';
 
 const Dialogs = (props) => {
 
@@ -24,7 +24,6 @@ const Dialogs = (props) => {
 			<div className={classes.dialogsItems}>
 				{dialogsElements}
 			</div>
-
 			<div className={classes.messages}>
 				<div>
 					{messagesElements}
