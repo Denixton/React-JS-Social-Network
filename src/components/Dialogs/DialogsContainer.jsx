@@ -15,7 +15,12 @@ const DialogsContainer = (props) => {
 	}
 
 	return (
+<<<<<<< HEAD
 		<Dialogs sendMessage={onSendMessageClick} updateNewMessageText={onNewMessageChange} dialogsPage={state}/>
+=======
+		<Dialogs sendMessage={onSendMessageClick} updateNewMessageText={onNewMessageChange} 
+		dialogsPage={state} />
+>>>>>>> c480ce5a512c02c01ab255e57e1e31ed8f1f3cff
 	);
 }
 
