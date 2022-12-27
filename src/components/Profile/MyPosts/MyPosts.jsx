@@ -8,11 +8,7 @@ const MyPosts = (props) => {
 
 	let postsElements = state.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
 
-<<<<<<< HEAD
-	const addPost = () => {
-=======
 	const onAddPost = () => {
->>>>>>> c480ce5a512c02c01ab255e57e1e31ed8f1f3cff
 		props.addPost();
 	}
 
@@ -38,5 +34,6 @@ const MyPosts = (props) => {
 		</div>
 	);
 }
+
 
 export default MyPosts;
