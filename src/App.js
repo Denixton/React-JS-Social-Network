@@ -12,6 +12,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 // import Settings from './components/Settings/Settings';
 
 const App = (props) => {
+
 	return (
 		<BrowserRouter>
 			<div className='app-wrapper'>

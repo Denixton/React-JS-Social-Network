@@ -6,7 +6,7 @@ const MyPosts = (props) => {
 
 	let state = props.profilePage;
 
-	let postsElements = state.posts.map(post => <Post message={post.message} likesCount={post.likesCount} />);
+	let postsElements = state.posts.map(post => <Post message={post.message} likesCount={post.likesCount} key={post.id} />);
 
 	const onAddPost = () => {
 		props.addPost();
