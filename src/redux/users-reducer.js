@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const usersReducer = (state = initialState, action) => {
-	switch(action.type) {
+	switch (action.type) {
 		case FOLLOW:
 			return {
 				...state,
@@ -20,7 +20,7 @@ const usersReducer = (state = initialState, action) => {
 					return user;
 				})
 			}
-		
+
 		case UNFOLLOW:
 			return {
 				...state,
@@ -36,7 +36,7 @@ const usersReducer = (state = initialState, action) => {
 
 		case SET_USERS:
 			return {
-				...state, 
+				...state,
 				users: action.users
 			}
 	}
