@@ -10,6 +10,8 @@
 	grid-template-columns: 2.5fr 10fr;
 	column-gap: 10px;
 	row-gap: 10px; 
+
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .app-wrapper-content {
