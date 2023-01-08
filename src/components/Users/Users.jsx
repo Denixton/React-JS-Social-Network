@@ -4,19 +4,26 @@ import userPhoto from '../../../src/assets/images/user.png';
 
 const Users = (props) => {
 	
-	//const pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-	const pages = [];
+	let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+	let pages = [];
 
-	for (let i=1; i <= 10; i++) {
+	for (let i = 1; i <= pagesCount; i++) {
 		pages.push(i);
 	}
+	
+	let curP = props.currentPage;
+	let curPF = ((curP - 2) < 0) ? 0 : curP - 2;
+	let curPL = curP + 1;
+	let slicedPages = pages.slice(curPF, curPL);
 
 	return <div>
-
+		
 			<div className={styles.pageNumber}>
-				{pages.map(page => {
-					return <span onClick={ (e) => {props.onPageChanged(page)} } className={props.currentPage === page ? styles.selectedPage : styles.nonSelectedPage}>{page}</span>
-				})}
+				<span className={styles.backPages} onClick={ () => {props.onPageChanged(1)} }>{`<<`}</span>
+					{slicedPages.map(page => {
+						return <span onClick={ (e) => {props.onPageChanged(page)} } className={props.currentPage === page ? styles.selectedPage : styles.nonSelectedPage} key={page}>{page}</span>
+					})}
+				<span className={styles.nextPages} onClick={ () => {props.onPageChanged(pagesCount)} }>{`>>`}</span>
 			</div>
 
 			{

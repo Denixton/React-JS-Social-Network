@@ -6,18 +6,34 @@
 
 .pageNumber {
 	font-size: 20px;
+	padding: 20px;
 }
 
 .selectedPage {
 	font-weight: 700;
-	margin-right: 5px;
+	margin-right: 10px;
+	font-size: 30px;
 }
 
 .nonSelectedPage {
-	margin-right: 5px;
+	margin-right: 10px;
+	transition: all 0.3s;
 }
 
 .nonSelectedPage:hover {
+	cursor: pointer;
+	text-shadow: 1px 1px 1px #000;
+}
+
+.backPages {
+	margin-right: 10px;
+}
+
+.backPages, .nextPages {
+	transition: all 0.3s;
+}
+
+.backPages:hover, .nextPages:hover {
 	cursor: pointer;
 	text-shadow: 1px 1px 1px #000;
 }
