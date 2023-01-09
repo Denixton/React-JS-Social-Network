@@ -64,7 +64,6 @@ const usersReducer = (state = initialState, action) => {
 				...state,
 				isFetching: action.isFetching
 			}
-
 	}
 	return state;
 }

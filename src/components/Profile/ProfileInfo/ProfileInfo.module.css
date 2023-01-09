@@ -1,3 +1,29 @@
 .descriptionBlock {
 	padding: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.userInfoWrapper {
+	margin-left: 10px;
+}
+
+.jobPicture {
+	width: 70px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.jobSearching {
+	display: flex;
+	align-items: center;
+}
+
+.userPhoto {
+	width: 300px;
+	height: 100px;
+}
+
+.userText {
+	margin-bottom: 20px;
 }
