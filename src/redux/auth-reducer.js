@@ -1,23 +1,25 @@
 /* eslint-disable default-case */
-const SET_USER_DATA = 'SET_USER_DATA';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING'
+const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
+const AUTH_IS_FETCHING = 'AUTH_IS_FETCHING'
 
 const initialState = {
 	userId: null,
 	email: null,
 	login: null,
+	isAuth: false,
 	isFetching: false
 };
 
 const authReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case SET_USER_DATA:
+		case SET_AUTH_USER_DATA:
 			return {
 				...state,
-				...action.data
+				...action.data,
+				isAuth: true
 			}
 
-		case TOGGLE_IS_FETCHING:
+		case AUTH_IS_FETCHING:
 			return {
 				...state,
 				isFetching: action.isFetching
@@ -26,8 +28,8 @@ const authReducer = (state = initialState, action) => {
 	return state;
 }
 
-export const setUserData = (userId, email, login) => ({
-	type: SET_USER_DATA,
+export const setAuthUserData = (userId, email, login) => ({
+	type: SET_AUTH_USER_DATA,
 	data: {
 		userId,
 		email,
@@ -35,8 +37,8 @@ export const setUserData = (userId, email, login) => ({
 	}
 });
 
-export const toggleIsFetching = (isFetching) => ({
-	type: TOGGLE_IS_FETCHING,
+export const authIsFetching = (isFetching) => ({
+	type: AUTH_IS_FETCHING,
 	isFetching
 });
 

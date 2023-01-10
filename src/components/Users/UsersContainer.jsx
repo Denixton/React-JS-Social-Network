@@ -15,9 +15,7 @@ import Preloader from "../Common/Preloader/Preloader";
 class UsersContainer extends React.Component {
   // Вмонтирование компоненты
   componentDidMount() {
-    // До того, как данные загрузились, меняем отображение "Крутилки" на true
     this.props.toggleIsFetching(true);
-    // Загрузка данных с сервера с текущей страницы и в количестве pageSize
     axios
       .get(
         `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
