@@ -8,6 +8,7 @@ import Navbar from './components/Navbar/Navbar';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileInfo/ProfileContainer';
+import Profile from './components/Profile/Profile';
 // import News from './components/News/News';
 // import Music from './components/Music/Music';
 // import Settings from './components/Settings/Settings';
@@ -22,10 +23,8 @@ const App = (props) => {
 				{/* <Sidebar sidebarPage={props.store.sidebarPage} /> */}
 				<div className='app-wrapper-content'>
 					<Routes>
-						<Route path='/profile'>
-							<Route path=':userId' element={<ProfileContainer />} />
-							{/* <Route path='me' element={<ProfileContainer />} /> */}
-						</Route>
+						<Route path="/profile" element={<ProfileContainer isMain={true}/>} />
+						<Route path="/profile/:userId" element={<ProfileContainer />} />
 						<Route path='/dialogs' element={<DialogsContainer />} />
 						<Route path='/users' element={<UsersContainer />} />
 						{/* <Route path='/news' element={<News />}/>
