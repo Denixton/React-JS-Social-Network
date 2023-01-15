@@ -1,85 +1,94 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  follow,
-  setUsers,
-  unfollow,
-  setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
+	follow,
+	setUsers,
+	unfollow,
+	setCurrentPage,
+	setTotalUsersCount,
+	toggleIsFetching,
+	toggleFollowingProgress
 } from "../../redux/users-reducer";
 import Users from "./Users";
-import axios from "axios";
 import Preloader from "../Common/Preloader/Preloader";
+import { usersAPI } from "../../api/api";
 
 class UsersContainer extends React.Component {
-  // Вмонтирование компоненты
-  componentDidMount() {
+	componentDidMount() {
     this.props.toggleIsFetching(true);
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {withCredentials: true}
-      )
-      .then((response) => {
-        // Данные загрузились, "Крутилка" больше не нужна
-        this.props.toggleIsFetching(false);
-        // Сетаем юзеров...
-        this.props.setUsers(response.data.items);
-        // ...и их количество
-        this.props.setTotalUsersCount(response.data.totalCount);
-      });
-  }
+	usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then((data) => {
+			this.props.toggleIsFetching(false);
+			this.props.setUsers(data.items);
+			this.props.setTotalUsersCount(data.totalCount);
+		});
+	}
 
-  // Изменение списка пользователей по нажатию на нужную страницу
-  onPageChanged = (pageNumber) => {
-    this.props.setCurrentPage(pageNumber);
-    this.props.toggleIsFetching(true);
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {withCredentials: true}
-      )
-      .then((response) => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(response.data.items);
-      });
-  };
+	onPageChanged = (pageNumber) => {
+		this.props.setCurrentPage(pageNumber);
+		this.props.toggleIsFetching(true);
+		usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
+			this.props.toggleIsFetching(false);
+			this.props.setUsers(data.items);
+		});
+	};
 
-  // Отрисовка
-  render() {
-    return (
-      <>
-        {/* Если идет загрузка данных с сервера, то отображать "Крутилку" (Preloader), в противном случае - не отображать */}
-        {this.props.isFetching ? <Preloader /> : null}
+	unfollowUser = (userId) => {
+		this.props.toggleFollowingProgress(true, userId);
+		usersAPI.unfollowUser(userId).then((data) => {
+			if (data.resultCode === 0) {
+				this.props.unfollow(userId);
+				this.props.toggleFollowingProgress(false, userId);
+			} 
+		});
+	}
 
-        <Users
-          totalUsersCount={this.props.totalUsersCount}
-          pageSize={this.props.pageSize}
-          currentPage={this.props.currentPage}
-          onPageChanged={this.onPageChanged}
-          users={this.props.users}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
-        />
-      </>
-    );
-  }
+	followUser = (userId) => {
+		this.props.toggleFollowingProgress(true, userId);
+		usersAPI.followUser(userId).then((data) => {
+			if (data.resultCode === 0) {
+				this.props.follow(userId);
+				this.props.toggleFollowingProgress(false, userId);
+			} 
+		});
+	}
+
+	render() {
+		return (
+		<>
+			{this.props.isFetching ? <Preloader /> : null}
+
+			<Users
+			totalUsersCount={this.props.totalUsersCount}
+			pageSize={this.props.pageSize}
+			currentPage={this.props.currentPage}
+			onPageChanged={this.onPageChanged}
+			users={this.props.users}
+			followUser={this.followUser}
+			unfollowUser={this.unfollowUser}
+			followingInProgress={this.props.followingInProgress}
+			/>
+		</>
+		);
+	}
 }
 
-export const mapStateToProps = (state) => {
-  return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-  };
+	export const mapStateToProps = (state) => {
+	return {
+		users: state.usersPage.users,
+		pageSize: state.usersPage.pageSize,
+		totalUsersCount: state.usersPage.totalUsersCount,
+		currentPage: state.usersPage.currentPage,
+		isFetching: state.usersPage.isFetching,
+		followingInProgress: state.usersPage.followingInProgress
+	};
 };
 
-export default connect(mapStateToProps, {
-  follow,
-  unfollow,
-  setUsers,
-  setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
+	export default connect(mapStateToProps, {
+	follow,
+	unfollow,
+	setUsers,
+	setCurrentPage,
+	setTotalUsersCount,
+	toggleIsFetching,
+	toggleFollowingProgress
 })(UsersContainer);
