@@ -1,55 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-	follow,
-	setUsers,
-	unfollow,
-	setCurrentPage,
-	setTotalUsersCount,
-	toggleIsFetching,
-	toggleFollowingProgress
+	getUsers,
+	changePage,
+	followSuccess,
+	unfollowSuccess
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
-import { usersAPI } from "../../api/api";
+
 
 class UsersContainer extends React.Component {
 	componentDidMount() {
-    this.props.toggleIsFetching(true);
-	usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then((data) => {
-			this.props.toggleIsFetching(false);
-			this.props.setUsers(data.items);
-			this.props.setTotalUsersCount(data.totalCount);
-		});
+		this.props.getUsers(this.props.currentPage, this.props.pageSize);
 	}
 
 	onPageChanged = (pageNumber) => {
-		this.props.setCurrentPage(pageNumber);
-		this.props.toggleIsFetching(true);
-		usersAPI.getUsers(pageNumber, this.props.pageSize).then((data) => {
-			this.props.toggleIsFetching(false);
-			this.props.setUsers(data.items);
-		});
+		this.props.changePage(pageNumber, this.props.pageSize);
 	};
 
 	unfollowUser = (userId) => {
-		this.props.toggleFollowingProgress(true, userId);
-		usersAPI.unfollowUser(userId).then((data) => {
-			if (data.resultCode === 0) {
-				this.props.unfollow(userId);
-				this.props.toggleFollowingProgress(false, userId);
-			} 
-		});
+		this.props.unfollowSuccess(userId);
 	}
 
 	followUser = (userId) => {
-		this.props.toggleFollowingProgress(true, userId);
-		usersAPI.followUser(userId).then((data) => {
-			if (data.resultCode === 0) {
-				this.props.follow(userId);
-				this.props.toggleFollowingProgress(false, userId);
-			} 
-		});
+		this.props.followSuccess(userId);
 	}
 
 	render() {
@@ -84,11 +59,8 @@ class UsersContainer extends React.Component {
 };
 
 	export default connect(mapStateToProps, {
-	follow,
-	unfollow,
-	setUsers,
-	setCurrentPage,
-	setTotalUsersCount,
-	toggleIsFetching,
-	toggleFollowingProgress
+	getUsers,
+	followSuccess,
+	unfollowSuccess,
+	changePage
 })(UsersContainer);

@@ -1,3 +1,5 @@
+import { authAPI } from "../api/api";
+
 /* eslint-disable default-case */
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 const AUTH_IS_FETCHING = 'AUTH_IS_FETCHING'
@@ -41,6 +43,21 @@ export const authIsFetching = (authIsFetching) => ({
 	type: AUTH_IS_FETCHING,
 	authIsFetching
 });
+
+/* authMe thunkCreator */
+export const getAuthUserData = () => {
+	/* thunk */
+	return (dispatch) => {
+		dispatch(authIsFetching(true));
+		authAPI.authMe().then((data) => {
+			dispatch(authIsFetching(false));
+			if (data.resultCode === 0) {
+				let {id, email, login} = data.data;
+				dispatch(setAuthUserData(id, email, login));
+			}
+		});
+	}
+}
 
 export default authReducer;
 

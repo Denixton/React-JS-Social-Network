@@ -1,3 +1,6 @@
+import { usersAPI } from "../api/api";
+
+/* eslint-disable default-case */
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -66,13 +69,13 @@ const usersReducer = (state = initialState, action) => {
 				...state,
 				isFetching: action.isFetching
 			}
-		
-		case TOGGLE_IS_FOLLOWING_PROGRESS: 
+
+		case TOGGLE_IS_FOLLOWING_PROGRESS:
 			return {
 				...state,
 				followingInProgress: action.followingInProgress
-					? [...state.followingInProgress, action.userId] 
-					: [state.followingInProgress.filter(id => id != action.userId)]
+					? [...state.followingInProgress, action.userId]
+					: [state.followingInProgress.filter(id => id !== action.userId)]
 			}
 	}
 	return state;
@@ -113,6 +116,62 @@ export const toggleFollowingProgress = (followingInProgress, userId) => ({
 	followingInProgress,
 	userId
 });
+
+/* THUNKS */
+
+/* Get users thunkCreator */
+export const getUsers = (currentPage, pageSize) => {
+	/* thunk */
+	return (dispatch) => {
+		dispatch(toggleIsFetching(true));
+		usersAPI.getUsers(currentPage, pageSize).then((data) => {
+			dispatch(toggleIsFetching(false));
+			dispatch(setUsers(data.items));
+			dispatch(setTotalUsersCount(data.totalCount));
+		});
+	}
+}
+
+/* changePage thunkCreator */
+export const changePage = (pageNumber, pageSize) => {
+	/* thunk */
+	return (dispatch) => {
+		dispatch(setCurrentPage(pageNumber));
+		dispatch(toggleIsFetching(true));
+		usersAPI.getUsers(pageNumber, pageSize).then((data) => {
+			dispatch(toggleIsFetching(false));
+			dispatch(setUsers(data.items));
+		});
+	}
+}
+
+/* followUser thunkCreator */
+export const followSuccess = (userId) => {
+	/* thunk */
+	return (dispatch) => {
+		dispatch(toggleFollowingProgress(true, userId));
+		usersAPI.followUser(userId).then((data) => {
+			if (data.resultCode === 0) {
+				dispatch(follow(userId));
+				dispatch(toggleFollowingProgress(false, userId));
+			} 
+		});
+	}
+}
+
+/* unfollowUser thunkCreator */
+export const unfollowSuccess = (userId) => {
+	/* thunk */
+	return (dispatch) => {
+		dispatch(toggleFollowingProgress(true, userId));
+		usersAPI.unfollowUser(userId).then((data) => {
+			if (data.resultCode === 0) {
+				dispatch(unfollow(userId));
+				dispatch(toggleFollowingProgress(false, userId));
+			} 
+		});
+	}
+}
 
 export default usersReducer;
 
