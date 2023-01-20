@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import {
 	getUsers,
 	changePage,
-	followSuccess,
-	unfollowSuccess
+	Follow,
+	Unfollow
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
+import { withAuthNavigate } from "../HOC/WithAuthNavigate";
+import { compose } from "redux";
 
 
 class UsersContainer extends React.Component {
@@ -20,11 +22,11 @@ class UsersContainer extends React.Component {
 	};
 
 	unfollowUser = (userId) => {
-		this.props.unfollowSuccess(userId);
+		this.props.Follow(userId);
 	}
 
 	followUser = (userId) => {
-		this.props.followSuccess(userId);
+		this.props.Unfollow(userId);
 	}
 
 	render() {
@@ -47,7 +49,7 @@ class UsersContainer extends React.Component {
 	}
 }
 
-	export const mapStateToProps = (state) => {
+export const mapStateToProps = (state) => {
 	return {
 		users: state.usersPage.users,
 		pageSize: state.usersPage.pageSize,
@@ -58,9 +60,7 @@ class UsersContainer extends React.Component {
 	};
 };
 
-	export default connect(mapStateToProps, {
-	getUsers,
-	followSuccess,
-	unfollowSuccess,
-	changePage
-})(UsersContainer);
+export default compose(
+	connect(mapStateToProps, {getUsers, Follow, Unfollow, changePage}),
+	withAuthNavigate
+)(UsersContainer);

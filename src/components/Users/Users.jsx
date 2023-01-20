@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Users.module.css';
 import userPhoto from '../../../src/assets/images/user.png';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 
 const Users = (props) => {
 	
@@ -17,6 +17,8 @@ const Users = (props) => {
 	let curPL = curP + 1;
 	let slicedPages = pages.slice(curPF, curPL);
 
+	if (props.isAuth === false) return <Navigate to={'/login'}></Navigate>
+	
 	return <div>
 		
 			<div className={styles.pageNumber}>

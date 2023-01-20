@@ -146,7 +146,7 @@ export const changePage = (pageNumber, pageSize) => {
 }
 
 /* followUser thunkCreator */
-export const followSuccess = (userId) => {
+export const Follow = (userId) => {
 	/* thunk */
 	return (dispatch) => {
 		dispatch(toggleFollowingProgress(true, userId));
@@ -160,7 +160,7 @@ export const followSuccess = (userId) => {
 }
 
 /* unfollowUser thunkCreator */
-export const unfollowSuccess = (userId) => {
+export const Unfollow = (userId) => {
 	/* thunk */
 	return (dispatch) => {
 		dispatch(toggleFollowingProgress(true, userId));
