@@ -4,6 +4,7 @@ import styles from './ProfileInfo.module.css';
 import lookingForAJob from '../../../assets/images/lookingForAJob-smile.jpg';
 import notLookingForAJob from '../../../assets/images/notLookingForAJob-smile.jpg';
 import userPhoto from '../../../../src/assets/images/user.png';
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
 
@@ -13,30 +14,33 @@ const ProfileInfo = (props) => {
 
 	return (
 		<div >
-			<div>
+			{/* <div>
 				<img src='https://storge.pic2.me/cm/5120x2880/566/593fd655eec57.jpg' alt='profile'></img>
-			</div>
+			</div> */}
 			<div className={styles.descriptionBlock}>
 
 				{props.profile.photos.large 
 					? <img src={props.profile.photos.large} alt='User avatar'/> 
 					: <img className={styles.userPhoto} src={userPhoto} alt='User avatar' />}
 
+				
+
 				<div className={styles.userInfoWrapper}>
+					<ProfileStatus status={"Hello, friends!"}/>
 					<div className={styles.userText}>
-						Обо мне: {props.profile.aboutMe}
+						<span className={styles.infoTitle}>Обо мне:</span> {props.profile.aboutMe}
 					</div>
 					<div className={`${styles.jobSearching} ${styles.userText}`}>
-						Поиск работы: {props.profile.lookingForAJobDescription}
+						<span  className={styles.infoTitle}>Поиск работы:</span> {props.profile.lookingForAJobDescription}
 							{props.profile.lookingForAJob 
 							? <img className={styles.jobPicture} src={lookingForAJob} alt='looking for a job' />  
 							: <img className={styles.jobPicture} src={notLookingForAJob} alt='not looking for a job'/>}
 					</div>
 					<div className={styles.userText}>
-						Полное имя: {props.profile.fullName}
+						<span className={styles.infoTitle}>Полное имя:</span>{props.profile.fullName}
 					</div>
-					<div>
-						Я в интернете: {props.profile.contacts.vk}
+					<div className={styles.userText}>
+						<span className={styles.infoTitle}>Я в интернете:</span> {props.profile.contacts.vk}
 					</div>
 				</div>
 			</div>
