@@ -26,7 +26,7 @@ const ProfileInfo = (props) => {
 				
 
 				<div className={styles.userInfoWrapper}>
-					<ProfileStatus status={"Hello, friends!"}/>
+					<ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
 					<div className={styles.userText}>
 						<span className={styles.infoTitle}>Обо мне:</span> {props.profile.aboutMe}
 					</div>
